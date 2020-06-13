@@ -1,0 +1,81 @@
+﻿@using DataCollector.WebAPI.Models.Interfaces 
+@using DataCollector.WebAPI.Models.Dto
+@using DataCollector.WebAPI.Models.Api
+@using DataCollector.WebAPI.Models.Entities
+
+@inject IUserService _userService
+
+<MatTable Items="@users"
+          AllowSelection="true"
+          UseSortHeaderRow="true"
+          SelectionChanged="async (o) => await SelectionChanged(o)"
+          class="mat-elevation-z5">
+
+    <MatTableHeader>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Age</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Vk</th>
+        <th>Action</th>
+    </MatTableHeader>
+
+    <MatTableRow>
+        <td>@context.FirstName</td>
+        <td>@context.LastName</td>
+        <td>@context.Age</td>
+        <td>@context.MobilePhone</td>
+        <td>@context.Email</td>
+        <td>@context.Vk</td>
+        <td>
+            <MatButton Raised="true">Detail info</MatButton>
+        </td>
+    </MatTableRow>
+
+</MatTable>
+
+<MatDialog @bind-IsOpen="dialogIsOpen">
+    <MatDialogTitle>User information</MatDialogTitle>
+    <MatDialogContent>
+        <MatStringField ReadOnly="true" Value="@selectedUser?.CommonInfo?.FirstName" Label="First name"></MatStringField>
+    </MatDialogContent>
+</MatDialog>
+
+<h3>Table</h3>
+@code {
+    private List<UserDto> users;
+    private User selectedUser;
+    private string selectedUserId;
+    private bool dialogIsOpen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var filter = new UserFilterModel()
+        {
+            CommonInfo = new CommonInfoFilteModel(),
+            Contacts = new Contacts(),
+            Education = new Education(),
+            Interest = new InterestFilteModel(),
+            Career = new Career(),
+            Activity = new ActivityFilteModel(),
+            LifePositions = new LifePositions()
+        };
+
+        users = await _userService.GetAsync(filter);
+    }
+
+    public async Task SelectionChanged(object obj)
+    {
+        if (obj == null)
+        {
+            return;
+        }
+
+        var userDto = (UserDto)obj;
+        selectedUser = await _userService.GetByIdAsync(userDto.Id.ToString());
+        dialogIsOpen = true;
+
+        StateHasChanged();
+    }
+}
