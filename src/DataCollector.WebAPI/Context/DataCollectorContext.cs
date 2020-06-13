@@ -1,5 +1,6 @@
 ﻿using DataCollector.WebAPI.Models.Entities;
 using DataCollector.WebAPI.Models.Interfaces;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
 
@@ -20,6 +21,18 @@ namespace DataCollector.WebAPI.Context
             var connection = new MongoUrlBuilder(connectionString);
 
             _db = client.GetDatabase(connection.DatabaseName);
+
+           
+        }
+
+        static DataCollectorContext()
+        {
+            BsonClassMap.RegisterClassMap<User>(cm =>
+            {
+                cm.AutoMap();
+                cm.SetIgnoreExtraElements(true);
+                //cm.SetIgnoreExtraElementsIsInherited()
+            });
         }
 
         public IMongoCollection<User> Users

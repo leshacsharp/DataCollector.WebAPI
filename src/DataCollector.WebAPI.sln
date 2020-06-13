@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCollector.WebAPI", "DataCollector.WebAPI\DataCollector.WebAPI.csproj", "{F51B27A2-6C1F-4549-B6C8-243D55AAB50D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCollector.WebAPI", "DataCollector.WebAPI\DataCollector.WebAPI.csproj", "{F51B27A2-6C1F-4549-B6C8-243D55AAB50D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1", "BlazorApp1\BlazorApp1.csproj", "{3D8E46A5-A85B-4D3C-A73D-F484575AF44D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{F51B27A2-6C1F-4549-B6C8-243D55AAB50D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F51B27A2-6C1F-4549-B6C8-243D55AAB50D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F51B27A2-6C1F-4549-B6C8-243D55AAB50D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D8E46A5-A85B-4D3C-A73D-F484575AF44D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D8E46A5-A85B-4D3C-A73D-F484575AF44D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D8E46A5-A85B-4D3C-A73D-F484575AF44D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D8E46A5-A85B-4D3C-A73D-F484575AF44D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

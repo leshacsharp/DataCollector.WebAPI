@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using DataCollector.WebAPI.Context;
 using DataCollector.WebAPI.Models.Interfaces;
@@ -27,30 +28,37 @@ namespace DataCollector.WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+            //services.AddControllers();
 
             var connectionString = Configuration.GetConnectionString("MongoDbConnection");
-            services.AddScoped<IDbContext, DataCollectorContext>(p => new DataCollectorContext(connectionString));
 
+            services.AddScoped<IDbContext, DataCollectorContext>(p => new DataCollectorContext(connectionString));
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<HttpClient>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseHttpsRedirection();
 
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                //endpoints.MapControllers();
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/_Host");
             });
         }
     }

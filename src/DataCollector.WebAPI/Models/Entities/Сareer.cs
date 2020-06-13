@@ -1,6 +1,6 @@
 ﻿namespace DataCollector.WebAPI.Models.Entities
 {
-    public class Сareer
+    public class Career
     {
         public string PlaceOfWork { get; set; }
 

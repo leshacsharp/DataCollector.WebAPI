@@ -1,10 +1,12 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
 namespace DataCollector.WebAPI.Models.Entities
 {
     public class User : IMongoEntity
     {
+       // [BsonId]
         public ObjectId Id { get; set; }
 
         public CommonInfo CommonInfo { get; set; }
@@ -13,7 +15,7 @@ namespace DataCollector.WebAPI.Models.Entities
 
         public IEnumerable<Education> Education { get; set; }
 
-        public IEnumerable<Сareer> Сareer { get; set; }
+        public IEnumerable<Career> Career { get; set; }
 
         public LifePositions LifePositions { get; set; }
 
