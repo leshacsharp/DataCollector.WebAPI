@@ -1,5 +1,79 @@
-﻿@page "/"
+﻿@page "/users"
+@using DataCollector.WebAPI.Models.Entities;
 
-<Table></Table>
+<div class="sidebar">
+    <div class="top-row pl-4 navbar navbar-dark">
+        <a class="navbar-brand" href="">DataCollector</a>
+        <button class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <MatThemeProvider Theme="@theme1">
+        <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+            <ul class="nav flex-column">
+               
+                <li class="nav-item px-3">
+                    <MatSubtitle1 Style="color:ghostwhite"><h5>Common info</h5></MatSubtitle1>
+                    <MatTextField @bind-Value="Filter.CommonInfo.FirstName" Label="First name" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.CommonInfo.LastName" Label="Last name" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.CommonInfo.Country" Label="Country" Class="filter"></MatTextField>
+
+                    <MatRadioGroup @bind-Value="Filter.CommonInfo.Gender" Items="@(Enum.GetValues(typeof(Gender)).Cast<Gender>())"></MatRadioGroup>
+                    <MatCheckbox @bind-Value="@Filter.CommonInfo.WithoutAge" Label="Any age" TValue="bool"></MatCheckbox>
+
+                    <MatTextField @bind-Value="Filter.CommonInfo.FromAge" Label="From age" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.CommonInfo.ToAge" Label="To age" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.CommonInfo.City" Label="City" Class="filter"></MatTextField>
+                </li>
+
+                <li class="nav-item px-3">
+                    <MatSubtitle1 Style="color:ghostwhite"><h5>Education</h5></MatSubtitle1>
+                    <MatTextField @bind-Value="Filter.Education.Country" Label="Country" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Education.City" Label="City" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Education.EducationalInstitution" Label="Institut" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Education.Speciality" Label="Speciality" Class="filter"></MatTextField>
+                </li>
+
+                <li class="nav-item px-3">
+                    <MatSubtitle1 Style="color:ghostwhite"><h5>Career</h5></MatSubtitle1>
+                    <MatTextField @bind-Value="Filter.Career.Country" Label="Country" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Career.City" Label="City" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Career.PlaceOfWork" Label="Place of work" Class="filter"></MatTextField>
+                </li>
+
+                <li class="nav-item px-3">
+                    <MatSubtitle1 Style="color:ghostwhite"><h5>Activities</h5></MatSubtitle1>
+                    <MatTextField @bind-Value="Filter.Activity.Books" Label="Books" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Activity.Films" Label="Films" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Activity.Games" Label="Games" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Activity.Musics" Label="Musics" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Activity.Hoobies" Label="Hoobies" Class="filter"></MatTextField>
+                </li>
+
+                <li class="nav-item px-3">
+                    <MatSubtitle1 Style="color:ghostwhite"><h5>Interests</h5></MatSubtitle1>
+                    <MatTextField @bind-Value="Filter.Interest.TypesOfBooks" Label="Types of books" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Interest.TypesOfFilms" Label="Types of films" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Interest.TypesOfGames" Label="Types of games" Class="filter"></MatTextField>
+                    <MatTextField @bind-Value="Filter.Interest.TypesOfMusic" Label="Types of music" Class="filter"></MatTextField>
+                </li>
+              
+                <li class="nav-item px-3">
+                    <MatButton Raised="true" @onclick="GetUsersAsync">Apply</MatButton>
+                </li>
+            </ul>
+        </div>
+    </MatThemeProvider>
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    </div>
+
+    <div class="content px-4">
+        <Table Users="Users"></Table>
+    </div>
+</div>
+

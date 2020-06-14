@@ -5,9 +5,9 @@ using DataCollector.WebAPI.Models.Interfaces;
 using LinqKit;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,14 +21,12 @@ namespace DataCollector.WebAPI.Services
             _db = db;
         }
 
-        public Task<User> GetByIdAsync(string userId)
+        public async Task<User> GetByIdAsync(string userId)
         {
-            //todo: create mapper
-
-            var objectId = new ObjectId(userId);
-            var user = _db.Users.AsQueryable()
+            var id = new ObjectId(userId);
+            var user = await _db.Users.AsQueryable()
                                 .AsExpandable()
-                                .SingleOrDefaultAsync(u => u.Id == objectId);
+                                .SingleOrDefaultAsync(u => u.Id == id);
 
             return user;
         }
@@ -37,6 +35,7 @@ namespace DataCollector.WebAPI.Services
         {
             var filter = PredicateBuilder.New<User>(u => true);
             #region expressions
+
             if (!string.IsNullOrEmpty(filterModel.CommonInfo.FirstName))
             {
                 filter = filter.And(u => u.CommonInfo.FirstName.Contains(filterModel.CommonInfo.FirstName));
@@ -47,19 +46,15 @@ namespace DataCollector.WebAPI.Services
                 filter = filter.And(u => u.CommonInfo.LastName.Contains(filterModel.CommonInfo.LastName));
             }
 
-            if (filterModel.CommonInfo.Gender != null)
+            if (filterModel.CommonInfo.Gender != Gender.Unknown)
             {
                 filter = filter.And(u => u.CommonInfo.Gender == filterModel.CommonInfo.Gender);
             }
 
-            if (filterModel.CommonInfo.FromAge != null)
+            if (!filterModel.CommonInfo.WithoutAge)
             {
-                filter = filter.And(u => u.CommonInfo.Age >= filterModel.CommonInfo.FromAge);
-            }
-
-            if (filterModel.CommonInfo.ToAge != null)
-            {
-                filter = filter.And(u => u.CommonInfo.Age <= filterModel.CommonInfo.ToAge);
+                filter = filter.And(u => u.CommonInfo.Age.HasValue && u.CommonInfo.Age.Value >= filterModel.CommonInfo.FromAge);
+                filter = filter.And(u => u.CommonInfo.Age.HasValue && u.CommonInfo.Age.Value <= filterModel.CommonInfo.ToAge);
             }
 
             if (!string.IsNullOrEmpty(filterModel.CommonInfo.Country))
@@ -97,25 +92,25 @@ namespace DataCollector.WebAPI.Services
                 filter = filter.And(u => u.Education.Any(ev => ev.Speciality.Contains(filterModel.Education.Speciality)));
             }
 
-            //if (!string.IsNullOrEmpty(filterModel.Сareer.Country))
-            //{
-            //    filter = filter.And(u => u.Career.Any(ev => ev.Country.Contains(filterModel.Сareer.Country)));
-            //}
+            if (!string.IsNullOrEmpty(filterModel.Career.Country))
+            {
+                filter = filter.And(u => u.Career.Any(ev => ev.Country.Contains(filterModel.Career.Country)));
+            }
 
-            //if (!string.IsNullOrEmpty(filterModel.Сareer.City))
-            //{
-            //    filter = filter.And(u => u.Career.Any(ev => ev.City.Contains(filterModel.Сareer.City)));
-            //}
+            if (!string.IsNullOrEmpty(filterModel.Career.City))
+            {
+                filter = filter.And(u => u.Career.Any(ev => ev.City.Contains(filterModel.Career.City)));
+            }
 
-            //if (!string.IsNullOrEmpty(filterModel.Сareer.Position))
-            //{
-            //    filter = filter.And(u => u.Career.Any(ev => ev.Position.Contains(filterModel.Сareer.Position)));
-            //}
+            if (!string.IsNullOrEmpty(filterModel.Career.Position))
+            {
+                filter = filter.And(u => u.Career.Any(ev => ev.Position.Contains(filterModel.Career.Position)));
+            }
 
-            //if (!string.IsNullOrEmpty(filterModel.Сareer.PlaceOfWork))
-            //{
-            //    filter = filter.And(u => u.Career.Any(ev => ev.Position.Contains(filterModel.Сareer.PlaceOfWork)));
-            //}
+            if (!string.IsNullOrEmpty(filterModel.Career.PlaceOfWork))
+            {
+                filter = filter.And(u => u.Career.Any(ev => ev.Position.Contains(filterModel.Career.PlaceOfWork)));
+            }
 
             if (!string.IsNullOrEmpty(filterModel.LifePositions.WorldView))
             {

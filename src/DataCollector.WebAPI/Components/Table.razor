@@ -1,11 +1,6 @@
-﻿@using DataCollector.WebAPI.Models.Interfaces 
-@using DataCollector.WebAPI.Models.Dto
-@using DataCollector.WebAPI.Models.Api
-@using DataCollector.WebAPI.Models.Entities
+﻿@using DataCollector.WebAPI.Models.Entities
 
-@inject IUserService _userService
-
-<MatTable Items="@users"
+<MatTable Items="Users"
           AllowSelection="true"
           UseSortHeaderRow="true"
           SelectionChanged="async (o) => await SelectionChanged(o)"
@@ -35,47 +30,123 @@
 
 </MatTable>
 
-<MatDialog @bind-IsOpen="dialogIsOpen">
-    <MatDialogTitle>User information</MatDialogTitle>
+<MatDialog @bind-IsOpen="DialogIsOpen">
+    <MatDialogTitle ><h2>User information</h2></MatDialogTitle>
     <MatDialogContent>
-        <MatStringField ReadOnly="true" Value="@selectedUser?.CommonInfo?.FirstName" Label="First name"></MatStringField>
+        <MatSubtitle1><h5>Common info</h5></MatSubtitle1>
+        <div>
+            @{
+                var age = string.Empty;
+                var gender = string.Empty;
+                var isEducationEmpty = true;
+                var isCareerEmpty = true;
+                var isActivitiesEmpty = true;
+
+                if (SelectedUser != null)
+                {
+                    age = SelectedUser.CommonInfo.Age.HasValue ? SelectedUser.CommonInfo.Age.Value.ToString() : "";
+                    gender = SelectedUser.CommonInfo.Gender == Gender.Male ? "Муж" : SelectedUser.CommonInfo.Gender == Gender.Female ? "Жен" : "";
+
+                    var defaultEducation = SelectedUser.Education.First();
+                    isEducationEmpty = string.IsNullOrEmpty(defaultEducation.EducationalInstitution) &&
+                                       string.IsNullOrEmpty(defaultEducation.Speciality) &&
+                                       string.IsNullOrEmpty(defaultEducation.Country) &&
+                                       string.IsNullOrEmpty(defaultEducation.City);
+
+                    isActivitiesEmpty = SelectedUser.Activities.Books.Count() == 0 &&
+                                        SelectedUser.Activities.Films.Count() == 0 &&
+                                        SelectedUser.Activities.Hoobies.Count() == 0 &&
+                                        SelectedUser.Activities.Musics.Count() == 0 &&
+                                        SelectedUser.Activities.Games.Count() == 0;
+
+                    isCareerEmpty = SelectedUser.Career == null ? true : false;
+                }
+            }
+
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.CommonInfo.FirstName" Label="First name"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.CommonInfo.LastName" Label="Last name"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@gender" Label="Gender"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@age" Label="Age"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.CommonInfo.Country" Label="Country"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.CommonInfo.City" Label="City"></MatStringField>
+        </div>
+
+        <MatSubtitle1><h5>Contacts</h5></MatSubtitle1>
+        <div>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.Contacts.MobilePhone" Label="Phone"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.Contacts.Email" Label="Email"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.Contacts.Vk" Label="Vk"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.Contacts.Instagram" Label="Instagram"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.Contacts.Twitter" Label="Twitter"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.Contacts.Facebook" Label="Facebook"></MatStringField>
+        </div>
+
+        @{var educationSegmentTitle = isEducationEmpty ? "Education - empty" : "Education";}
+        <MatSubtitle1><h5>@educationSegmentTitle</h5></MatSubtitle1>
+
+        @if (!isEducationEmpty)
+        {
+            foreach (var e in SelectedUser.Education)
+            {
+                <div>
+                    <MatStringField ReadOnly="true" Value="@e.EducationalInstitution" Label="Educational institution"></MatStringField>
+                    <MatStringField ReadOnly="true" Value="@e.Speciality" Label="Speciality"></MatStringField>
+                    <MatStringField ReadOnly="true" Value="@e.Country" Label="Country"></MatStringField>
+                    <MatStringField ReadOnly="true" Value="@e.City" Label="City"></MatStringField>
+                </div>
+            }
+        }
+
+        @{var careerSegmentTitle = isCareerEmpty ? "Career - empty" : "Career";}
+        <MatSubtitle1><h5>@careerSegmentTitle</h5></MatSubtitle1>
+
+        @if (!isCareerEmpty)
+        {
+            foreach (var c in SelectedUser.Career)
+            {
+                <div>
+                    <MatStringField ReadOnly="true" Value="@c.PlaceOfWork" Label="Place of work"></MatStringField>
+                    <MatStringField ReadOnly="true" Value="@c.Position" Label="Position"></MatStringField>
+                    <MatStringField ReadOnly="true" Value="@c.Country" Label="Country"></MatStringField>
+                    <MatStringField ReadOnly="true" Value="@c.City" Label="City"></MatStringField>
+                </div>
+            }
+        }
+
+        @{var activitiesSegmentTitle = isActivitiesEmpty ? "Activities - empty" : "Activities";}
+        <MatSubtitle1><h5>@activitiesSegmentTitle</h5></MatSubtitle1>
+        @if (!isActivitiesEmpty)
+        {
+            <div>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Activities.Books)" Label="Books"></MatStringField>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Activities.Films)" Label="Films"></MatStringField>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Activities.Hoobies)" Label="Hoobies"></MatStringField>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Activities.Musics)" Label="Musics"></MatStringField>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Activities.Games)" Label="Games"></MatStringField>
+            </div>
+        }
+
+        @{var interestsSegmentTitle = isActivitiesEmpty ? "Interests - empty" : "Interests";}
+        <MatSubtitle1><h5>@interestsSegmentTitle</h5></MatSubtitle1>
+        @if (!isActivitiesEmpty)
+        {
+            <div>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Interests.TypesOfBooks)" Label="Types of books"></MatStringField>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Interests.TypesOfFilms)" Label="Types of films"></MatStringField>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Interests.TypesOfGames)" Label="Types of games"></MatStringField>
+                <MatStringField ReadOnly="true" Value="@string.Join(",", SelectedUser.Interests.TypesOfMusic)" Label="Types of music"></MatStringField>  
+            </div>
+        }
+
+        <MatSubtitle1><h5>Life positions</h5></MatSubtitle1>
+        <div>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.LifePositions.MainInLife" Label="MainInLife"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.LifePositions.MainInPeople" Label="MainInPeople"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.LifePositions.WorldView" Label="WorldView"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.LifePositions.PositionToAlhocol" Label="PositionToAlhocol"></MatStringField>
+            <MatStringField ReadOnly="true" Value="@SelectedUser?.LifePositions.PositionToSigarets" Label="PositionToSigarets"></MatStringField>
+        </div>
+
     </MatDialogContent>
 </MatDialog>
 
-<h3>Table</h3>
-@code {
-    private List<UserDto> users;
-    private User selectedUser;
-    private string selectedUserId;
-    private bool dialogIsOpen;
-
-    protected override async Task OnInitializedAsync()
-    {
-        var filter = new UserFilterModel()
-        {
-            CommonInfo = new CommonInfoFilteModel(),
-            Contacts = new Contacts(),
-            Education = new Education(),
-            Interest = new InterestFilteModel(),
-            Career = new Career(),
-            Activity = new ActivityFilteModel(),
-            LifePositions = new LifePositions()
-        };
-
-        users = await _userService.GetAsync(filter);
-    }
-
-    public async Task SelectionChanged(object obj)
-    {
-        if (obj == null)
-        {
-            return;
-        }
-
-        var userDto = (UserDto)obj;
-        selectedUser = await _userService.GetByIdAsync(userDto.Id.ToString());
-        dialogIsOpen = true;
-
-        StateHasChanged();
-    }
-}

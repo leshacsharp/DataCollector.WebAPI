@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DataCollector.WebAPI.Models.Entities
+﻿namespace DataCollector.WebAPI.Models.Entities
 {
     public class CommonInfo
     {
@@ -10,9 +8,7 @@ namespace DataCollector.WebAPI.Models.Entities
 
         public Gender Gender { get; set; }
 
-        public DateTime? DateBirthday { get; set; }
-
-        public int? Age => (DateTime.UtcNow - DateBirthday)?.Days / 365;
+        public int? Age { get; set; }
 
         public string Country { get; set; }
 

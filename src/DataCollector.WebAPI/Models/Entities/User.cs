@@ -6,7 +6,6 @@ namespace DataCollector.WebAPI.Models.Entities
 {
     public class User : IMongoEntity
     {
-       // [BsonId]
         public ObjectId Id { get; set; }
 
         public CommonInfo CommonInfo { get; set; }

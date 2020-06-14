@@ -1,10 +1,20 @@
 ﻿using DataCollector.WebAPI.Models.Entities;
-using System;
 
 namespace DataCollector.WebAPI.Models.Api
 {
     public class UserFilterModel
     {
+        public UserFilterModel()
+        {
+            CommonInfo = new CommonInfoFilteModel();
+            Contacts = new Contacts();
+            Education = new Education();
+            Career = new Career();
+            LifePositions = new LifePositions();
+            Activity = new ActivityFilteModel();
+            Interest = new InterestFilteModel();
+        }
+
         public CommonInfoFilteModel CommonInfo { get; set; }
 
         public Contacts Contacts { get; set; }
@@ -26,11 +36,13 @@ namespace DataCollector.WebAPI.Models.Api
 
         public string LastName { get; set; }
 
-        public Gender? Gender { get; set; }
+        public Gender Gender { get; set; }
 
-        public int? FromAge { get; set; }
+        public int FromAge { get; set; }
 
-        public int? ToAge { get; set; }
+        public int ToAge { get; set; }
+
+        public bool WithoutAge { get; set; }
 
         public string Country { get; set; }
 

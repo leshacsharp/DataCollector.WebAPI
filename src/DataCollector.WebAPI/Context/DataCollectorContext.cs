@@ -27,11 +27,11 @@ namespace DataCollector.WebAPI.Context
 
         static DataCollectorContext()
         {
+            //todo: move this mapping to configure method
             BsonClassMap.RegisterClassMap<User>(cm =>
             {
                 cm.AutoMap();
                 cm.SetIgnoreExtraElements(true);
-                //cm.SetIgnoreExtraElementsIsInherited()
             });
         }
 
