@@ -17,6 +17,7 @@
     </MatTableHeader>
 
     <MatTableRow>
+
         <td>@context.FirstName</td>
         <td>@context.LastName</td>
         <td>@context.Age</td>
@@ -47,11 +48,15 @@
                     age = SelectedUser.CommonInfo.Age.HasValue ? SelectedUser.CommonInfo.Age.Value.ToString() : "";
                     gender = SelectedUser.CommonInfo.Gender == Gender.Male ? "Муж" : SelectedUser.CommonInfo.Gender == Gender.Female ? "Жен" : "";
 
-                    var defaultEducation = SelectedUser.Education.First();
-                    isEducationEmpty = string.IsNullOrEmpty(defaultEducation.EducationalInstitution) &&
-                                       string.IsNullOrEmpty(defaultEducation.Speciality) &&
-                                       string.IsNullOrEmpty(defaultEducation.Country) &&
-                                       string.IsNullOrEmpty(defaultEducation.City);
+                    var defaultEducation = SelectedUser.Education.FirstOrDefault();
+
+                    if (defaultEducation != null)
+                    {
+                        isEducationEmpty = string.IsNullOrEmpty(defaultEducation.EducationalInstitution) &&
+                                           string.IsNullOrEmpty(defaultEducation.Speciality) &&
+                                           string.IsNullOrEmpty(defaultEducation.Country) &&
+                                           string.IsNullOrEmpty(defaultEducation.City);
+                    }
 
                     isActivitiesEmpty = SelectedUser.Activities.Books.Count() == 0 &&
                                         SelectedUser.Activities.Films.Count() == 0 &&

@@ -219,6 +219,7 @@ namespace DataCollector.WebAPI.Services
                                      Id = u.Id,
                                      FirstName = u.CommonInfo.FirstName,
                                      LastName = u.CommonInfo.LastName,
+                                     Age = u.CommonInfo.Age,
                                      City = u.CommonInfo.City,
                                      MobilePhone = u.Contacts.MobilePhone,
                                      Email = u.Contacts.Email,
