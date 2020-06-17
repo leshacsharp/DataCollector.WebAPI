@@ -214,7 +214,7 @@ namespace DataCollector.WebAPI.Services
             var query = _db.Users.AsQueryable()
                                  .AsExpandable()
                                  .Where(filter)
-                                 .Skip(() => filterModel.From != null ? (int)filterModel.From : 0)
+                                 .Skip(() => filterModel.From.HasValue ? filterModel.From.Value : 0)
                                  .Select(u => new UserDto()
                                  {
                                      Id = u.Id,
@@ -226,9 +226,9 @@ namespace DataCollector.WebAPI.Services
                                      Vk = u.Contacts.Vk
                                  });
 
-            if(filterModel.Count != null)
+            if (filterModel.Count.HasValue)
             {
-                query = query.Take((int)filterModel.Count);
+                query = query.Take(filterModel.Count.Value);
             }
 
             return query.ToListAsync();

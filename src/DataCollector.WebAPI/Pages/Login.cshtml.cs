@@ -38,7 +38,7 @@ namespace DataCollector.WebAPI.Pages
                 new ClaimsPrincipal(user),
                 authProperties);
             }
-            return LocalRedirect("/");
+            return LocalRedirect("/users");
         }
     }
 }

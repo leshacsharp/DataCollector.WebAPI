@@ -1,5 +1,4 @@
-﻿using DataCollector.WebAPI.Models.Api;
-using DataCollector.WebAPI.Models.Interfaces;
+﻿using DataCollector.WebAPI.Models.Dto;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System;
@@ -13,13 +12,10 @@ namespace DataCollector.WebAPI.Components
     public partial class DownloadData : ComponentBase
     {
         [Inject]
-        public IUserService UserService { get; set; }
-
-        [Inject]
         public IJSRuntime JSRuntime { get; set; }
 
         [Parameter]
-        public UserFilterModel Filter { get; set; }
+        public List<UserDto> Users { get; set; }
 
         private int StartRecord { get; set; }
 
@@ -27,11 +23,8 @@ namespace DataCollector.WebAPI.Components
 
         public async Task DownloadFileAsync()
         {
-            Filter.From = StartRecord;
-            Filter.Count = CountRecords;
-
-            var users = await UserService.GetAsync(Filter);
-            var userStrs = users.Select(u => $"Id={u.Id} FirstName={u.FirstName} LastName={u.LastName}");
+            var users = Users.Skip(StartRecord).Take(CountRecords);
+            var userStrs = users.Select(u => $"Id={u.Id} FirstName={u.FirstName} LastName={u.LastName} Vk={u.Vk}");
             var joinedUsers = string.Join("\n", userStrs);
             var usersBase64 = Convert.ToBase64String(Encoding.Default.GetBytes(joinedUsers));
 

@@ -11,7 +11,7 @@ namespace DataCollector.WebAPI.Pages
         public async Task<IActionResult> OnGetAsync()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return LocalRedirect("/");
+            return LocalRedirect("/users");
         }
     }
 }
