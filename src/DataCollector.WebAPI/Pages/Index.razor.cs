@@ -29,10 +29,7 @@ namespace DataCollector.WebAPI.Pages
             Users = await UserService.GetAsync(Filter);
         }
 
-        MatTheme theme1 = new MatTheme()
-        {
-            Primary = "#12E6E6"
-        };
+        private MatTheme theme  = new MatTheme() { Primary = "#12E6E6" };
         private bool collapseNavMenu = true;
         private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

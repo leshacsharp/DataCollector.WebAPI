@@ -1,5 +1,6 @@
 ﻿@page "/users"
 @using DataCollector.WebAPI.Models.Entities;
+@attribute [Authorize]
 
 <div class="sidebar">
     <div class="top-row pl-4 navbar navbar-dark">
@@ -9,10 +10,10 @@
         </button>
     </div>
 
-    <MatThemeProvider Theme="@theme1">
+    <MatThemeProvider Theme="@theme">
         <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
             <ul class="nav flex-column">
-               
+
                 <li class="nav-item px-3">
                     <MatSubtitle1 Style="color:ghostwhite"><h5>Common info</h5></MatSubtitle1>
                     <MatTextField @bind-Value="Filter.CommonInfo.FirstName" Label="First name" Class="filter"></MatTextField>
@@ -58,7 +59,7 @@
                     <MatTextField @bind-Value="Filter.Interest.TypesOfGames" Label="Types of games" Class="filter"></MatTextField>
                     <MatTextField @bind-Value="Filter.Interest.TypesOfMusic" Label="Types of music" Class="filter"></MatTextField>
                 </li>
-              
+
                 <li class="nav-item px-3">
                     <MatButton Raised="true" @onclick="GetUsersAsync">Apply</MatButton>
                 </li>
@@ -69,11 +70,12 @@
 
 <div class="main">
     <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        <LoginControl />
     </div>
 
     <div class="content px-4">
         <Table Users="Users"></Table>
+        <DownloadData Filter="Filter"></DownloadData>
     </div>
 </div>
 

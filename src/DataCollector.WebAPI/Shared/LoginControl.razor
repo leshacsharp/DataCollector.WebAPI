@@ -1,0 +1,18 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor _httpContextAccessor
+@inject HttpClient Http
+
+@if (_httpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+{   
+    <b>You are logged in as: @_httpContextAccessor.HttpContext.User.Identity.Name</b>
+    <a class="ml-md-auto btn btn-primary"
+       href="/Logout"
+       target="_top">Logout</a>
+}
+else
+{
+    <a class="ml-md-auto btn btn-primary"
+       href="/Login"
+       target="_top">Login</a>
+}

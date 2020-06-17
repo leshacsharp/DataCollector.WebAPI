@@ -1,9 +1,7 @@
 ﻿using DataCollector.WebAPI.Models.Entities;
 using DataCollector.WebAPI.Models.Interfaces;
+using MatBlazor;
 using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DataCollector.WebAPI.Pages
@@ -21,6 +19,16 @@ namespace DataCollector.WebAPI.Pages
         protected override async Task OnInitializedAsync()
         {
             User = await UserService.GetByIdAsync(UserId);
+        }
+
+
+        private MatTheme theme = new MatTheme() { Primary = "#12E6E6" };
+        private bool collapseNavMenu = true;
+        private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+        private void ToggleNavMenu()
+        {
+            collapseNavMenu = !collapseNavMenu;
         }
     }
 }

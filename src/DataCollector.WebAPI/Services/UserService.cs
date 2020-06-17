@@ -203,7 +203,7 @@ namespace DataCollector.WebAPI.Services
 
             if (!string.IsNullOrEmpty(filterModel.Interest.TypesOfMusic))
             {
-                var typesOfMusic = filterModel.Interest.TypesOfMusic.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
+                var typesOfMusic = filterModel.Interest.TypesOfMusic.Split(",", StringSplitOptions.RemoveEmptyEntries)
                                                                .Select(x => x.Trim());
 
                 filter = filter.And(u => u.Interests.TypesOfMusic.Any(b => typesOfMusic.Contains(b)));
@@ -211,25 +211,25 @@ namespace DataCollector.WebAPI.Services
 
             #endregion
 
-            //var filterDefinitionBuilder = new FilterDefinitionBuilder<User>();
-            //var filterDefinition = filterDefinitionBuilder.Where(filter);
-
-            //using var userCursor = await _db.Users.FindAsync(filterDefinition);
-            //await userCursor.MoveNextAsync();
-
             var query = _db.Users.AsQueryable()
                                  .AsExpandable()
                                  .Where(filter)
+                                 .Skip(() => filterModel.From != null ? (int)filterModel.From : 0)
                                  .Select(u => new UserDto()
                                  {
                                      Id = u.Id,
                                      FirstName = u.CommonInfo.FirstName,
-                                     LastName = u.CommonInfo.LastName,                                  
+                                     LastName = u.CommonInfo.LastName,
                                      City = u.CommonInfo.City,
                                      MobilePhone = u.Contacts.MobilePhone,
                                      Email = u.Contacts.Email,
                                      Vk = u.Contacts.Vk
                                  });
+
+            if(filterModel.Count != null)
+            {
+                query = query.Take((int)filterModel.Count);
+            }
 
             return query.ToListAsync();
         }    

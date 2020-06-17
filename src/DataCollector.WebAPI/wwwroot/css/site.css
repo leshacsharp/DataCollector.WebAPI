@@ -161,7 +161,7 @@ app {
         max-height: 100vh;
         position: sticky;
         top: 0;
-        overflow-y:scroll;
+        overflow-y:auto;
     }
 
     .main .top-row {

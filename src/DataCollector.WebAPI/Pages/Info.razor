@@ -1,5 +1,113 @@
 ﻿@page "/users/{userId}"
 
-<h3>Info</h3>
-<MatStringField Value="@User.Id.ToString()" Label="Id"></MatStringField>
-<MatStringField Value="@User.CommonInfo.FirstName"></MatStringField>
+
+<div class="sidebar" style="height: 100vh;">
+    <div class="top-row pl-4 navbar navbar-dark">
+        <a class="navbar-brand" href="">DataCollector</a>
+        <button class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+
+    <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="/users" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Home
+                </NavLink>
+            </li> 
+        </ul>
+    </div>
+</div>
+
+ <div class="main">
+     <div class="top-row px-4">
+         <LoginControl />
+     </div>
+
+     <div class="content px-4">
+         <MatSubtitle1><h5>Common info</h5></MatSubtitle1>
+         <div>
+             @{
+                 var age = string.Empty;
+                 var gender = string.Empty;
+                 var isCareerEmpty = true;
+
+                 if (User != null)
+                 {
+                     age = User.CommonInfo.Age.HasValue ? User.CommonInfo.Age.Value.ToString() : "";
+                     gender = User.CommonInfo.Gender == Gender.Male ? "Муж" : User.CommonInfo.Gender == Gender.Female ? "Жен" : "";
+                     isCareerEmpty = User.Career == null ? true : false;
+                 }
+             }
+
+             <MatStringField ReadOnly="true" Value="@User?.CommonInfo.FirstName" Label="First name"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.CommonInfo.LastName" Label="Last name"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@gender" Label="Gender"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@age" Label="Age"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.CommonInfo.Country" Label="Country"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.CommonInfo.City" Label="City"></MatStringField>
+         </div>
+
+         <MatSubtitle1><h5>Contacts</h5></MatSubtitle1>
+         <div>
+             <MatStringField ReadOnly="true" Value="@User?.Contacts.MobilePhone" Label="Phone"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.Contacts.Email" Label="Email"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.Contacts.Vk" Label="Vk"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.Contacts.Instagram" Label="Instagram"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.Contacts.Twitter" Label="Twitter"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.Contacts.Facebook" Label="Facebook"></MatStringField>
+         </div>
+
+         <MatSubtitle1><h5>Education</h5></MatSubtitle1>
+         @foreach (var e in User.Education)
+         {
+             <div>
+                 <MatStringField ReadOnly="true" Value="@e.EducationalInstitution" Label="Educational institution"></MatStringField>
+                 <MatStringField ReadOnly="true" Value="@e.Speciality" Label="Speciality"></MatStringField>
+                 <MatStringField ReadOnly="true" Value="@e.Country" Label="Country"></MatStringField>
+                 <MatStringField ReadOnly="true" Value="@e.City" Label="City"></MatStringField>
+             </div>
+         }
+
+         @if (!isCareerEmpty)
+         {
+             <MatSubtitle1><h5>Career</h5></MatSubtitle1>
+             foreach (var c in User.Career)
+             {
+                 <div>
+                     <MatStringField ReadOnly="true" Value="@c.PlaceOfWork" Label="Place of work"></MatStringField>
+                     <MatStringField ReadOnly="true" Value="@c.Position" Label="Position"></MatStringField>
+                     <MatStringField ReadOnly="true" Value="@c.Country" Label="Country"></MatStringField>
+                     <MatStringField ReadOnly="true" Value="@c.City" Label="City"></MatStringField>
+                 </div>
+             }
+         }
+
+         <MatSubtitle1><h5>Activities</h5></MatSubtitle1>
+         <div>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Activities.Books)" Label="Books"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Activities.Films)" Label="Films"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Activities.Hoobies)" Label="Hoobies"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Activities.Musics)" Label="Musics"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Activities.Games)" Label="Games"></MatStringField>
+         </div>
+
+         <MatSubtitle1><h5>Interests</h5></MatSubtitle1>
+         <div>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Interests.TypesOfBooks)" Label="Types of books"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Interests.TypesOfFilms)" Label="Types of films"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Interests.TypesOfGames)" Label="Types of games"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@string.Join(",", User.Interests.TypesOfMusic)" Label="Types of music"></MatStringField>
+         </div>
+
+         <MatSubtitle1><h5>Life positions</h5></MatSubtitle1>
+         <div>
+             <MatStringField ReadOnly="true" Value="@User?.LifePositions.MainInLife" Label="MainInLife"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.LifePositions.MainInPeople" Label="MainInPeople"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.LifePositions.WorldView" Label="WorldView"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.LifePositions.PositionToAlhocol" Label="PositionToAlhocol"></MatStringField>
+             <MatStringField ReadOnly="true" Value="@User?.LifePositions.PositionToSigarets" Label="PositionToSigarets"></MatStringField>
+         </div>
+     </div>
+ </div>
