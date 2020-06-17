@@ -28,10 +28,6 @@ namespace DataCollector.WebAPI.Models.Api
         public ActivityFilteModel Activity { get; set; }
 
         public InterestFilteModel Interest { get; set; }
-
-        public int? From { get; set; }
-
-        public int? Count { get; set; }
     }
 
     public class CommonInfoFilteModel
