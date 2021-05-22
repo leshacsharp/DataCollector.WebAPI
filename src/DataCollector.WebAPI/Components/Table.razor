@@ -7,13 +7,13 @@
           class="mat-elevation-z5">
 
     <MatTableHeader>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Age</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Vk</th>
-        <th>Action</th>
+        <th style="width:10%">First name></th>
+        <th style="width:10%">Last name</th>
+        <th style="width:5%">Age</th>
+        <th style="width:20%">Phone</th>
+        <th style="width:20%">Email</th>
+        <th style="width:15%">Vk</th>
+        <th style="width:20%">Action</th>
     </MatTableHeader>
 
     <MatTableRow>
@@ -24,8 +24,8 @@
         <td>@context.MobilePhone</td>
         <td>@context.Email</td>
         <td>@context.Vk</td>
-        <td>
-            <a href="/users/@context.Id.ToString()"><MatButton Raised="true">Another page</MatButton></a>
+        <td>    
+            <a href="/users/@context.Id.ToString()"><MatButton Raised="true">new page</MatButton></a>
         </td>
     </MatTableRow>
 
