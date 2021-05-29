@@ -38,12 +38,12 @@ namespace DataCollector.WebAPI.Services
 
             if (!string.IsNullOrEmpty(filterModel.CommonInfo.FirstName))
             {
-                filter = filter.And(u => u.CommonInfo.FirstName.Contains(filterModel.CommonInfo.FirstName));
+                filter = filter.And(u => u.CommonInfo.FirstName.ToLower().Contains(filterModel.CommonInfo.FirstName.ToLower()));
             }
 
             if (!string.IsNullOrEmpty(filterModel.CommonInfo.LastName))
             {
-                filter = filter.And(u => u.CommonInfo.LastName.Contains(filterModel.CommonInfo.LastName));
+                filter = filter.And(u => u.CommonInfo.LastName.ToLower().Contains(filterModel.CommonInfo.LastName.ToLower()));
             }
 
             if (filterModel.CommonInfo.Gender != Gender.Unknown)
@@ -59,12 +59,12 @@ namespace DataCollector.WebAPI.Services
 
             if (!string.IsNullOrEmpty(filterModel.CommonInfo.Country))
             {
-                filter = filter.And(u => u.CommonInfo.Country.Contains(filterModel.CommonInfo.Country));
+                filter = filter.And(u => u.CommonInfo.Country.ToLower().Contains(filterModel.CommonInfo.Country.ToLower()));
             }
 
             if (!string.IsNullOrEmpty(filterModel.CommonInfo.City))
             {
-                filter = filter.And(u => u.CommonInfo.City.Contains(filterModel.CommonInfo.City));
+                filter = filter.And(u => u.CommonInfo.City.ToLower().Contains(filterModel.CommonInfo.City.ToLower()));
             }
 
             if (!string.IsNullOrEmpty(filterModel.Contacts.MobilePhone))
@@ -74,139 +74,112 @@ namespace DataCollector.WebAPI.Services
 
             if (!string.IsNullOrEmpty(filterModel.Education.Country))
             {
-                filter = filter.And(u => u.Education.Any(ev => ev.Country.Contains(filterModel.Education.Country)));
+                filter = filter.And(u => u.Education.Any(ev => ev.Country.ToLower().Contains(filterModel.Education.Country.ToLower())));
             }
 
             if (!string.IsNullOrEmpty(filterModel.Education.City))
             {
-                filter = filter.And(u => u.Education.Any(ev => ev.City.Contains(filterModel.Education.City)));
+                filter = filter.And(u => u.Education.Any(ev => ev.City.ToLower().Contains(filterModel.Education.City.ToLower())));
             }
 
             if (!string.IsNullOrEmpty(filterModel.Education.EducationalInstitution))
             {
-                filter = filter.And(u => u.Education.Any(ev => ev.EducationalInstitution.Contains(filterModel.Education.EducationalInstitution)));
+                filter = filter.And(u => u.Education.Any(ev => ev.EducationalInstitution.ToLower().Contains(filterModel.Education.EducationalInstitution.ToLower())));
             }
 
             if (!string.IsNullOrEmpty(filterModel.Education.Speciality))
             {
-                filter = filter.And(u => u.Education.Any(ev => ev.Speciality.Contains(filterModel.Education.Speciality)));
+                filter = filter.And(u => u.Education.Any(ev => ev.Speciality.ToLower().Contains(filterModel.Education.Speciality.ToLower())));
             }
 
             if (!string.IsNullOrEmpty(filterModel.Career.Country))
             {
-                filter = filter.And(u => u.Career.Any(ev => ev.Country.Contains(filterModel.Career.Country)));
+                filter = filter.And(u => u.Career.Any(ev => ev.Country.ToLower().Contains(filterModel.Career.Country.ToLower())));
             }
 
             if (!string.IsNullOrEmpty(filterModel.Career.City))
             {
-                filter = filter.And(u => u.Career.Any(ev => ev.City.Contains(filterModel.Career.City)));
+                filter = filter.And(u => u.Career.Any(ev => ev.City.ToLower().Contains(filterModel.Career.City.ToLower())));
             }
 
             if (!string.IsNullOrEmpty(filterModel.Career.Position))
             {
-                filter = filter.And(u => u.Career.Any(ev => ev.Position.Contains(filterModel.Career.Position)));
+                filter = filter.And(u => u.Career.Any(ev => ev.Position.ToLower().Contains(filterModel.Career.Position.ToLower())));
             }
 
             if (!string.IsNullOrEmpty(filterModel.Career.PlaceOfWork))
             {
-                filter = filter.And(u => u.Career.Any(ev => ev.Position.Contains(filterModel.Career.PlaceOfWork)));
+                filter = filter.And(u => u.Career.Any(ev => ev.Position.ToLower().Contains(filterModel.Career.PlaceOfWork.ToLower())));
             }
 
             if (!string.IsNullOrEmpty(filterModel.LifePositions.WorldView))
             {
-                filter = filter.And(u => u.LifePositions.WorldView == filterModel.LifePositions.WorldView);
+                filter = filter.And(u => u.LifePositions.WorldView.ToLower().Contains(filterModel.LifePositions.WorldView.ToLower()));
             }
 
             if (!string.IsNullOrEmpty(filterModel.LifePositions.MainInLife))
             {
-                filter = filter.And(u => u.LifePositions.MainInLife == filterModel.LifePositions.MainInLife);
+                filter = filter.And(u => u.LifePositions.MainInLife.ToLower().Contains(filterModel.LifePositions.MainInLife.ToLower()));
             }
 
             if (!string.IsNullOrEmpty(filterModel.LifePositions.MainInPeople))
             {
-                filter = filter.And(u => u.LifePositions.MainInPeople == filterModel.LifePositions.MainInPeople);
+                filter = filter.And(u => u.LifePositions.MainInPeople.ToLower().Contains(filterModel.LifePositions.MainInPeople.ToLower()));
             }
 
             if (!string.IsNullOrEmpty(filterModel.LifePositions.PositionToSigarets))
             {
-                filter = filter.And(u => u.LifePositions.PositionToSigarets == filterModel.LifePositions.PositionToSigarets);
+                filter = filter.And(u => u.LifePositions.PositionToSigarets.ToLower().Contains(filterModel.LifePositions.PositionToSigarets.ToLower()));
             }
 
             if (!string.IsNullOrEmpty(filterModel.LifePositions.PositionToAlhocol))
             {
-                filter = filter.And(u => u.LifePositions.PositionToAlhocol == filterModel.LifePositions.PositionToAlhocol);
+                filter = filter.And(u => u.LifePositions.PositionToAlhocol.ToLower().Contains(filterModel.LifePositions.PositionToAlhocol.ToLower()));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Activity.Books))
+            if (!string.IsNullOrEmpty(filterModel.Activity.Book))
             {
-                var books = filterModel.Activity.Books.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
-                                                      .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Activities.Books.Any(b => books.Contains(b)));
+                filter = filter.And(u => u.Activities.Books.Any(b => b.ToLower().Contains(filterModel.Activity.Book.ToLower())));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Activity.Films))
+            if (!string.IsNullOrEmpty(filterModel.Activity.Film))
             {
-                var films = filterModel.Activity.Films.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
-                                                      .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Activities.Films.Any(f => films.Contains(f)));
+                filter = filter.And(u => u.Activities.Films.Any(f => f.ToLower().Contains(filterModel.Activity.Film.ToLower())));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Activity.Games))
+            if (!string.IsNullOrEmpty(filterModel.Activity.Game))
             {
-                var games = filterModel.Activity.Games.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
-                                                      .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Activities.Games.Any(b => games.Contains(b)));
+                filter = filter.And(u => u.Activities.Games.Any(b => b.ToLower().Contains(filterModel.Activity.Game.ToLower())));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Activity.Musics))
+            if (!string.IsNullOrEmpty(filterModel.Activity.Music))
             {
-                var musics = filterModel.Activity.Musics.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
-                                                        .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Activities.Musics.Any(b => musics.Contains(b)));
+                filter = filter.And(u => u.Activities.Musics.Any(b => b.ToLower().Contains(filterModel.Activity.Music.ToLower())));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Activity.Hoobies))
+            if (!string.IsNullOrEmpty(filterModel.Activity.Hoobie))
             {
-                var hoobies = filterModel.Activity.Hoobies.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
-                                                          .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Activities.Hoobies.Any(b => hoobies.Contains(b)));
+                filter = filter.And(u => u.Activities.Hoobies.Any(b => b.ToLower().Contains(filterModel.Activity.Hoobie.ToLower())));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Interest.TypesOfBooks))
+            if (!string.IsNullOrEmpty(filterModel.Interest.TypeOfBook))
             {
-                var typesOfBooks = filterModel.Interest.TypesOfBooks.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
-                                                               .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Interests.TypesOfBooks.Any(b => typesOfBooks.Contains(b)));
+                filter = filter.And(u => u.Interests.TypesOfMusic.Any(b => b.ToLower().Contains(filterModel.Interest.TypeOfBook.ToLower())));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Interest.TypesOfFilms))
+            if (!string.IsNullOrEmpty(filterModel.Interest.TypeOfFilm))
             {
-                var typesOfFilms = filterModel.Interest.TypesOfFilms.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
-                                                               .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Interests.TypesOfFilms.Any(b => typesOfFilms.Contains(b)));
+                filter = filter.And(u => u.Interests.TypesOfFilms.Any(b => b.ToLower().Contains(filterModel.Interest.TypeOfFilm.ToLower())));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Interest.TypesOfGames))
+            if (!string.IsNullOrEmpty(filterModel.Interest.TypeOfGame))
             {
-                var typesOfGames = filterModel.Interest.TypesOfGames.Split(",", System.StringSplitOptions.RemoveEmptyEntries)
-                                                               .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Interests.TypesOfGames.Any(b => typesOfGames.Contains(b)));
+                filter = filter.And(u => u.Interests.TypesOfGames.Any(b => b.ToLower().Contains(filterModel.Interest.TypeOfGame.ToLower())));
             }
 
-            if (!string.IsNullOrEmpty(filterModel.Interest.TypesOfMusic))
+            if (!string.IsNullOrEmpty(filterModel.Interest.TypeOfMusiс))
             {
-                var typesOfMusic = filterModel.Interest.TypesOfMusic.Split(",", StringSplitOptions.RemoveEmptyEntries)
-                                                               .Select(x => x.Trim());
-
-                filter = filter.And(u => u.Interests.TypesOfMusic.Any(b => typesOfMusic.Contains(b)));
+                filter = filter.And(u => u.Interests.TypesOfMusic.Any(b => b.ToLower().Contains(filterModel.Interest.TypeOfMusiс.ToLower())));
             }
 
             #endregion

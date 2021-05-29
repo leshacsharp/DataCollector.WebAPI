@@ -51,25 +51,25 @@ namespace DataCollector.WebAPI.Models.Api
 
     public class ActivityFilteModel
     {
-        public string Books { get; set; }
+        public string Book { get; set; }
 
-        public string Films { get; set; }
+        public string Film { get; set; }
 
-        public string Games { get; set; }
+        public string Game { get; set; }
 
-        public string Musics { get; set; }
+        public string Music { get; set; }
 
-        public string Hoobies { get; set; }
+        public string Hoobie { get; set; }
     }
 
     public class InterestFilteModel
     {
-        public string TypesOfBooks { get; set; }
+        public string TypeOfBook { get; set; }
 
-        public string TypesOfFilms { get; set; }
+        public string TypeOfFilm { get; set; }
 
-        public string TypesOfGames { get; set; }
+        public string TypeOfGame { get; set; }
 
-        public string TypesOfMusic { get; set; }
+        public string TypeOfMusiс { get; set; }
     }
 }
